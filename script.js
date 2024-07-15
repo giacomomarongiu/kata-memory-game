@@ -1,16 +1,28 @@
 
-//- Creao un array al cui interno inserisco 12 numeri in ordine casuale diversi tra loro
+let cards = getRandomCards();
+// console.log(cards);
+
+// Trovo la mia lista
+let ulElement = document.getElementById('card-list');
+// console.log(ulElement);
+
+//Inizializzo le carte che dovrò confrontare
+let firstCard = null;
+let secondCard = null;
+let firstCardID = null;
+let secondCardID= null;
+
+//Genero le carte
 function getRandomCards() {
-    //Array vuoto
+    // Array vuoto
     const cards = [];
 
-    //ciclo finché non ho 12 numeri diversi
+    // Ciclo finché non ho 12 numeri diversi
     while (cards.length < 12) {
-        
-        //Genero un numero casuale tra 1 e 12
+        // Genero un numero casuale tra 1 e 12
         const randomNumber = Math.floor(Math.random() * 12) + 1;
-        
-        //Se non è già presente lo aggiungo
+
+        // Se non è già presente lo aggiungo
         if (!cards.includes(randomNumber)) {
             cards.push(randomNumber);
         }
@@ -18,31 +30,78 @@ function getRandomCards() {
     return cards;
 }
 
-
-let cards = getRandomCards()
-//console.log(cards); 
-
-
-//trovo la mia lista
-let ulElement = document.getElementById('card-list')
-//console.log(ulElement);
-
-
-//Stampo nella dom i numeri
-function printOnDom(){
+// Stampo nella DOM i numeri
+function printOnDom() {
     for (let i = 0; i < cards.length; i++) {
-
-        //creo un nuovo li
+        // Creo un nuovo li
         const newLi = document.createElement('li');
-        //console.log(newLi);
+        // console.log(newLi);
 
-        //ci scrivo il contenuto dell'array
-        newLi.innerHTML= cards[i]
+        // Aggiungo un ID unico
+        newLi.id = `${i}`;
 
-        //lo appiccico alla ul
-        ulElement.append(newLi)
+        // Ci scrivo il contenuto dell'array
+        newLi.innerHTML = cards[i];
+
+        // Aggiungo l'event listener non anonimo
+        newLi.addEventListener('click', canYouMatch);
+
+        // Lo appiccico alla ul
+        ulElement.append(newLi);
+    }
+}
+
+// Funzione per gestire il clic su una carta
+function canYouMatch(event) {
+    const selectedCard = event.target.innerHTML;
+    const selectedCardID = event.target.id;
+
+    console.log(selectedCard);
+    console.log(selectedCardID);
+
+
+    if (firstCard === null) {
+        firstCard = selectedCard;
+        firstCardID = selectedCardID
+        console.log('First Card:', firstCard);
+        console.log('First Card ID:', firstCardID);
+        document.getElementById(firstCardID).style.color = 'red'
+
+    } else if (secondCard === null) {
+        secondCard = selectedCard;
+        secondCardID = selectedCardID
+        console.log('Second Card:', secondCard);
+        console.log('Second Card ID:', secondCardID);
+
+        if (matchYourCards()) {
+            event.target.style.color = 'red'; 
+        } else {
+            document.getElementById(firstCardID).style.color = 'black'
+        }
+            firstCard = null;
+            secondCard = null
+            checkedNumber = null
+            firstCardID= null
+            secondCardID= null
 
     }
 }
 
-printOnDom()
+//Confronto i valori
+function matchYourCards() {
+
+    let checkedNumber = Math.abs(Number(firstCard) - Number(secondCard));
+    console.log(checkedNumber);
+
+    if (checkedNumber == 6) {
+        console.log("true");
+        console.log();
+        return true
+    } else {
+        console.log("false");
+        return false
+    }
+
+}
+
+printOnDom();

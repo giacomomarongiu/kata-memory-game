@@ -21,3 +21,4 @@ Ti servirà!
 ## Pseudo code
 - Creao un array al cui interno inserisco 12 numeri in ordine casuale diversi tra loro
 - Stampo i numeri nel DOM
+- Creo una variabile globale canImatch che mi servirà per il confronto

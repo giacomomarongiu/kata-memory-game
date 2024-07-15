@@ -1,0 +1,12 @@
+#card-list {
+    list-style: none;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+    >li {
+        background: blue;
+        width: 100px;
+        height: 100px;
+        border: 2px solid black;
+    }
+}

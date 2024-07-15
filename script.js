@@ -12,6 +12,8 @@ let secondCard = null;
 let firstCardID = null;
 let secondCardID= null;
 
+let errorCounter = 0;
+
 //Genero le carte
 function getRandomCards() {
     // Array vuoto
@@ -85,11 +87,13 @@ function canYouMatch(event) {
             secondCardID= null
 
     }
+    console.log(errorCounter);
 }
 
 //Confronto i valori
 function matchYourCards() {
 
+    //Calcolo il valore assoluto della somma
     let checkedNumber = Math.abs(Number(firstCard) - Number(secondCard));
     console.log(checkedNumber);
 
@@ -99,6 +103,8 @@ function matchYourCards() {
         return true
     } else {
         console.log("false");
+        //Incremento il contatore degli errori
+        errorCounter++
         return false
     }
 

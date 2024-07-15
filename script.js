@@ -42,8 +42,16 @@ function printOnDom() {
         // Aggiungo un ID unico
         newLi.id = `${i}`;
 
+        // Creo un elemento immagine
+        const img = document.createElement('img');
+
+        // Imposto l'attributo src dell'immagine
+        img.setAttribute('src', `./assets/img/${i}.png`);
+
         // Ci scrivo il contenuto dell'array
-        newLi.innerHTML = cards[i];
+        //newLi.innerHTML = cards[i];
+
+        newLi.appendChild(img)
 
         // Aggiungo l'event listener non anonimo
         newLi.addEventListener('click', canYouMatch);
@@ -97,7 +105,7 @@ function matchYourCards() {
     let checkedNumber = Math.abs(Number(firstCard) - Number(secondCard));
     console.log(checkedNumber);
 
-    if (checkedNumber == 6) {
+    if (checkedNumber == 1) {
         console.log("true");
         console.log();
         return true

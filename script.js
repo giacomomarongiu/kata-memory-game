@@ -10,7 +10,7 @@ let ulElement = document.getElementById('card-list');
 let firstCard = null;
 let secondCard = null;
 let firstCardID = null;
-let secondCardID= null;
+let secondCardID = null;
 
 let errorCounter = 0;
 
@@ -42,18 +42,18 @@ function printOnDom() {
         // Aggiungo un ID unico
         newLi.id = `${i}`;
 
-        //Voglio che le mie immagini vadano solo da 0 a 5
-         let imgIndex= cards[i] % 6;
+        //Voglio che le mie immagini vadano solo da 0 a 5 (6 diverse immagini che si ripetono)
+        let imgIndex = cards[i] % 6;
 
         // Creo un elemento immagine
         const img = document.createElement('img');
-        img.className = 'hidden_card'
+        // Appena stampato lo nascondo
+        newLi.className = 'hidden_card'
 
         // Imposto l'attributo src dell'immagine
         img.setAttribute('src', `./assets/img/${imgIndex}.png`);
 
         // Ci scrivo il contenuto dell'array
-        //newLi.innerHTML = cards[i];
         newLi.appendChild(img)
 
         // Aggiungo l'event listener non anonimo
@@ -67,36 +67,49 @@ function printOnDom() {
 // Funzione per gestire il clic su una carta
 function canYouMatch(event) {
     const selectedCard = event.target;
-    const selectedCardID = event.target.id;
-
+    // const selectedCardID = event.target.id;
     console.log(selectedCard);
-    console.log(selectedCardID);
+    //console.log(selectedCardID);
 
-
+    // Se non ho una carta selezionata
     if (firstCard === null) {
+
+        //Assegno il valore del target a firstCard
         firstCard = selectedCard;
-        firstCardID = selectedCardID
         console.log('First Card:', firstCard);
-        console.log('First Card ID:', firstCardID);
-        //document.getElementById(firstCardID).style.color = 'red'
-        selectedCard.className = 'show'
+
+        //Lo mostro
+        firstCard.className = 'show'
 
     } else if (secondCard === null) {
+        //In caso contrario lo assegno a secondCard
         secondCard = selectedCard;
-        secondCardID = selectedCardID
+        
+        // Lo mostro
         console.log('Second Card:', secondCard);
-        console.log('Second Card ID:', secondCardID);
 
+        //Faccio il confronto grazie alla funzione di Match
         if (matchYourCards()) {
-            event.target.style.color = 'red'; 
-        } else {
-           // document.getElementById(firstCardID).style.color = 'black'
-        }
+            //Se sono uguali assegno la classe show 
+            secondCard.className = 'show'
+
+            //Reset delle carte selezionate
             firstCard = null;
-            secondCard = null
-            checkedNumber = null
-            firstCardID= null
-            secondCardID= null
+            secondCard = null;
+        } else {
+            // In caso contrario la mostro
+            secondCard.className = 'show'
+
+            //Dopo un secondo copro entrambe
+            setTimeout(() => {
+                firstCard.className = 'hidden_card'
+                secondCard.className = 'hidden_card'
+
+                //Reset delle carte selezionate
+                firstCard = null;
+                secondCard = null;
+            }, 1000);
+        }
 
     }
     console.log(errorCounter);
@@ -105,9 +118,8 @@ function canYouMatch(event) {
 //Confronto i valori
 function matchYourCards() {
 
-    if (firstCard == secondCard) {
+    if (firstCard.innerHTML == secondCard.innerHTML) {
         console.log("true");
-        console.log();
         return true
     } else {
         console.log("false");

@@ -42,15 +42,18 @@ function printOnDom() {
         // Aggiungo un ID unico
         newLi.id = `${i}`;
 
+        //Voglio che le mie immagini vadano solo da 0 a 5
+         let imgIndex= cards[i] % 6;
+
         // Creo un elemento immagine
         const img = document.createElement('img');
+        img.className = 'hidden_card'
 
         // Imposto l'attributo src dell'immagine
-        img.setAttribute('src', `./assets/img/${i}.png`);
+        img.setAttribute('src', `./assets/img/${imgIndex}.png`);
 
         // Ci scrivo il contenuto dell'array
         //newLi.innerHTML = cards[i];
-
         newLi.appendChild(img)
 
         // Aggiungo l'event listener non anonimo
@@ -63,7 +66,7 @@ function printOnDom() {
 
 // Funzione per gestire il clic su una carta
 function canYouMatch(event) {
-    const selectedCard = event.target.innerHTML;
+    const selectedCard = event.target;
     const selectedCardID = event.target.id;
 
     console.log(selectedCard);
@@ -75,7 +78,8 @@ function canYouMatch(event) {
         firstCardID = selectedCardID
         console.log('First Card:', firstCard);
         console.log('First Card ID:', firstCardID);
-        document.getElementById(firstCardID).style.color = 'red'
+        //document.getElementById(firstCardID).style.color = 'red'
+        selectedCard.className = 'show'
 
     } else if (secondCard === null) {
         secondCard = selectedCard;
@@ -86,7 +90,7 @@ function canYouMatch(event) {
         if (matchYourCards()) {
             event.target.style.color = 'red'; 
         } else {
-            document.getElementById(firstCardID).style.color = 'black'
+           // document.getElementById(firstCardID).style.color = 'black'
         }
             firstCard = null;
             secondCard = null
@@ -101,11 +105,7 @@ function canYouMatch(event) {
 //Confronto i valori
 function matchYourCards() {
 
-    //Calcolo il valore assoluto della somma
-    let checkedNumber = Math.abs(Number(firstCard) - Number(secondCard));
-    console.log(checkedNumber);
-
-    if (checkedNumber == 1) {
+    if (firstCard == secondCard) {
         console.log("true");
         console.log();
         return true

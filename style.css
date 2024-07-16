@@ -30,3 +30,11 @@ body {
 .container {
     width: 75%;
 }
+
+.hidden_card{
+    display: none;
+}
+
+.show{
+    display: block;
+}

@@ -84,7 +84,7 @@ function canYouMatch(event) {
     } else if (secondCard === null) {
         //In caso contrario lo assegno a secondCard
         secondCard = selectedCard;
-        
+
         // Lo mostro
         console.log('Second Card:', secondCard);
 
@@ -97,9 +97,10 @@ function canYouMatch(event) {
             firstCard = null;
             secondCard = null;
         } else {
+            console.log(secondCard);
             // In caso contrario la mostro
             secondCard.className = 'show'
-
+            
             //Dopo un secondo copro entrambe
             setTimeout(() => {
                 firstCard.className = 'hidden_card'

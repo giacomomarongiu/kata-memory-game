@@ -1,0 +1,135 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: auto;
+}
+
+main {
+    height: 90vh;
+    width: 100vw;
+    display: flex;
+    background: rgb(217, 138, 199);
+}
+
+header {
+    height: 10vh;
+    width: 100vw;
+    background-color: #3498db;
+    display: flex;
+            border-bottom: 1px solid #2980b9;
+
+    >.nav_bar {
+        width: 80%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: evil-empire, sans-serif;
+        font-size: 500%;
+        letter-spacing: 20px;
+        > i{
+            font-size: 70%;
+        }
+    }
+}
+
+.container {
+    width: 80%;
+    display: flex;
+    height: 80%;
+    align-items: center;
+}
+
+#card-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 70%;
+
+}
+
+li {
+    background-color: #3498db;
+    width: calc(25% - 20px);
+    margin: 8px;
+    aspect-ratio: 1;
+    border: 2px solid #2980b9;
+    border-radius: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+
+    >img {
+        max-width: 95%;
+        max-height: 95%;
+        object-fit: contain;
+    }
+}
+
+#card-list>li:hover {
+    transform: scale(1.1);
+}
+
+.rating {
+    width: 25%;
+    height: 80%;
+    background-color: #3498db;
+    border: 2px solid #2980b9;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: evil-empire, sans-serif;
+    font-size: 100%;
+
+    >.title {
+        width: 100%;
+        text-align: center;
+        font-size: 400%;
+    }
+
+    >.errors_container {
+        max-width: 100%;
+        height: 50%;
+        display: flex;
+        flex-direction: column;
+        font-size: 300%;
+        justify-content: start;
+
+    }
+}
+
+
+.hidden_card {
+    img {
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+    }
+}
+
+.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+.error {
+    background-color: rgba(207, 45, 45, 0.806);
+}
+
+.goal {
+    background-color: rgba(17, 128, 17, 0.666);
+}
+
+@font-face {
+    font-family: evil-empire;
+    src: url(./font/Evil\ Empire.otf);
+}
+
+.text_shadow {
+    color: fuchsia;
+    text-shadow: 2px 2px 4px fuchsia;
+}

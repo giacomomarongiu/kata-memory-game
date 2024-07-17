@@ -12,17 +12,21 @@ let secondCard = null;
 let firstCardID = null;
 let secondCardID = null;
 
+let goalsCounter = 0;
 let errorCounter = 0;
 errorsCounter()
 
 
 //Genero le carte
-function getRandomCards() {
+function getRandomCards(n) {
+    if (n==null) {
+        n=12
+    } 
     // Array vuoto
     const cards = [];
 
     // Ciclo finché non ho 12 numeri diversi
-    while (cards.length < 12) {
+    while (cards.length < n) {
         // Genero un numero casuale tra 1 e 12
         const randomNumber = Math.floor(Math.random() * 12) + 1;
 
@@ -70,7 +74,7 @@ function printOnDom() {
 function canYouMatch(event) {
     const selectedCard = event.target;
     // const selectedCardID = event.target.id;
-    console.log(selectedCard);
+    //console.log(selectedCard);
     //console.log(selectedCardID);
 
     // Se non ho una carta selezionata
@@ -78,7 +82,7 @@ function canYouMatch(event) {
 
         //Assegno il valore del target a firstCard
         firstCard = selectedCard;
-        console.log('First Card:', firstCard);
+        //console.log('First Card:', firstCard);
 
         //Lo mostro
         firstCard.className = 'show'
@@ -88,7 +92,7 @@ function canYouMatch(event) {
         secondCard = selectedCard;
 
         // Lo mostro
-        console.log('Second Card:', secondCard);
+        //console.log('Second Card:', secondCard);
 
         //Faccio il confronto grazie alla funzione di Match
         if (matchYourCards()) {
@@ -120,6 +124,7 @@ function canYouMatch(event) {
         }
 
     }
+    successPage()
     console.log(errorCounter);
 }
 
@@ -127,7 +132,8 @@ function canYouMatch(event) {
 function matchYourCards() {
 
     if (firstCard.innerHTML == secondCard.innerHTML) {
-        console.log("true");
+        goalsCounter++
+        console.log("true", goalsCounter);
         return true
     } else {
         console.log("false");
@@ -145,5 +151,63 @@ function errorsCounter() {
     errorsElement.innerHTML = errorCounter
 }
 
+function successPage() {
+    if (goalsCounter == (cards.length/2)) {
+        console.log('Entra qui');
+        let successPage = document.getElementsByClassName('modal_success')[0];
+        successPage.classList.add('show_modal'); 
+        createStars()
+    }
+}
+
+function createStars() {
+    const numStars = 40;
+    const container = document.querySelector('.modal_content'); 
+
+    for (let i = 0; i < numStars; i++) {
+        const star = document.createElement('div');
+        star.innerHTML = '<i class="fa-regular fa-star"></i>'
+        star.classList.add('star');
+        container.appendChild(star);
+
+        // Calcola le coordinate x e y per posizionare la stellina in modo casuale all'interno del contenitore
+        const x = Math.random() * container.clientWidth;
+        const y = Math.random() * container.clientHeight;
+
+        // Imposta le coordinate della stellina
+        star.style.left = `${x}px`;
+        star.style.top = `${y}px`;
+    }
+}
 
 printOnDom();
+
+
+// Seleziona i bottoni
+const btn6 = document.getElementById('btn6');
+const btn12 = document.getElementById('btn12');
+const btn18 = document.getElementById('btn18');
+
+// Aggiungi event listener per ciascun bottone
+btn6.addEventListener('click', function () {
+    // Ottieni e stampa il contenuto del bottone
+    const content = this.textContent.trim(); // .trim() rimuove spazi bianchi all'inizio e alla fine
+    console.log(`Hai selezionato: ${content}`);
+    cards = getRandomCards(Number(content))
+    ulElement.innerHTML = ''
+    printOnDom();
+});
+
+btn12.addEventListener('click', function () {
+    const content = this.textContent.trim();
+    console.log(`Hai selezionato: ${content}`);
+    cards = getRandomCards(Number(content))
+    ulElement.innerHTML=''
+    printOnDom();
+});
+
+btn18.addEventListener('click', function () {
+    const content = this.textContent.trim();
+    console.log(`Hai selezionato: ${content}`);
+
+});

@@ -13,6 +13,8 @@ let firstCardID = null;
 let secondCardID = null;
 
 let errorCounter = 0;
+errorsCounter()
+
 
 //Genero le carte
 function getRandomCards() {
@@ -93,6 +95,9 @@ function canYouMatch(event) {
             //Se sono uguali assegno la classe show 
             secondCard.className = 'show'
 
+            firstCard.className = 'goal'
+            secondCard.className = 'goal'
+
             //Reset delle carte selezionate
             firstCard = null;
             secondCard = null;
@@ -100,7 +105,9 @@ function canYouMatch(event) {
             console.log(secondCard);
             // In caso contrario la mostro
             secondCard.className = 'show'
-            
+            firstCard.className = 'error'
+            secondCard.className = 'error'
+
             //Dopo un secondo copro entrambe
             setTimeout(() => {
                 firstCard.className = 'hidden_card'
@@ -126,9 +133,16 @@ function matchYourCards() {
         console.log("false");
         //Incremento il contatore degli errori
         errorCounter++
+        errorsCounter()
         return false
     }
 
+}
+
+function errorsCounter() {
+    let errorsElement = document.getElementById('errors_number')
+    errorsElement.innerHTML = ''
+    errorsElement.innerHTML = errorCounter
 }
 
 

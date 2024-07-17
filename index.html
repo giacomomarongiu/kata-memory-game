@@ -4,18 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/3a46370e2f.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./assets/css/style.css">
     <title>Memory</title>
 </head>
 
 <body>
-    <div class="container flames-background">
-        <ul id="card-list">
-       </ul>
-       <div class="rating">
-        Errors: 
-       </div>
-    </div>
+    <header>
+        <div class="nav_bar text_shadow"><i class="fa-solid fa-spaghetti-monster-flying"></i>MEMORY<i class="fa-solid fa-spaghetti-monster-flying"></i></div>
+    </header>
+    <main>
+        <div class="container">
+            <ul id="card-list">
+            </ul>
+            <div class="rating">
+                <div class="title text_shadow">SCORE</div>
+                <div class="errors_container text_shadow"> Errors:
+                    <p id="errors_number"></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
 </body>
 <script src="script.js"></script>
 

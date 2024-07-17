@@ -28,7 +28,7 @@ function getRandomCards(n) {
     // Ciclo finché non ho 12 numeri diversi
     while (cards.length < n) {
         // Genero un numero casuale tra 1 e 12
-        const randomNumber = Math.floor(Math.random() * 12) + 1;
+        const randomNumber = Math.floor(Math.random() * n) + 1;
 
         // Se non è già presente lo aggiungo
         if (!cards.includes(randomNumber)) {
@@ -209,5 +209,7 @@ btn12.addEventListener('click', function () {
 btn18.addEventListener('click', function () {
     const content = this.textContent.trim();
     console.log(`Hai selezionato: ${content}`);
-
+    cards = getRandomCards(Number(content))
+    ulElement.innerHTML = ''
+    printOnDom();
 });

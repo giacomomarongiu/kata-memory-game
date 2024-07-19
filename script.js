@@ -1,27 +1,25 @@
 
 let cards = getRandomCards();
-// console.log(cards);
 
 // Trovo la mia lista
 let ulElement = document.getElementById('card-list');
-// console.log(ulElement);
+
 
 //Inizializzo le carte che dovrò confrontare
 let firstCard = null;
 let secondCard = null;
-let firstCardID = null;
-let secondCardID = null;
-
 let goalsCounter = 0;
 let errorCounter = 0;
+
+//Inizializzo il conto degli errori
 errorsCounter()
 
 
 //Genero le carte
 function getRandomCards(n) {
-    if (n==null) {
-        n=12
-    } 
+    if (n == null) {
+        n = 12
+    }
     // Array vuoto
     const cards = [];
 
@@ -40,6 +38,11 @@ function getRandomCards(n) {
 
 // Stampo nella DOM i numeri
 function printOnDom() {
+    if (cards.length > 12) {
+        hiddenClass = 'hidden_card hard-mode'
+    } else {
+        hiddenClass = 'hidden_card'
+    }
     for (let i = 0; i < cards.length; i++) {
         // Creo un nuovo li
         const newLi = document.createElement('li');
@@ -49,12 +52,13 @@ function printOnDom() {
         newLi.id = `${i}`;
 
         //Voglio che le mie immagini vadano solo da 0 a 5 (6 diverse immagini che si ripetono)
-        let imgIndex = cards[i] % 6;
+        //console.log(cards.length);
+        let imgIndex = cards[i] % (cards.length / 2);
 
         // Creo un elemento immagine
         const img = document.createElement('img');
         // Appena stampato lo nascondo
-        newLi.className = 'hidden_card'
+        newLi.className = hiddenClass
 
         // Imposto l'attributo src dell'immagine
         img.setAttribute('src', `./assets/img/${imgIndex}.png`);
@@ -72,50 +76,47 @@ function printOnDom() {
 
 // Funzione per gestire il clic su una carta
 function canYouMatch(event) {
-    const selectedCard = event.target;
-    // const selectedCardID = event.target.id;
-    //console.log(selectedCard);
-    //console.log(selectedCardID);
+    let hardMode = ''
+    if (cards.length > 12) {
+        hardMode = 'hard-mode'
+    }
 
+    const selectedCard = event.target;
+    const selectedImg = event.target;
     // Se non ho una carta selezionata
     if (firstCard === null) {
-
+        console.log(selectedCard);
         //Assegno il valore del target a firstCard
         firstCard = selectedCard;
-        //console.log('First Card:', firstCard);
 
         //Lo mostro
-        firstCard.className = 'show'
+        firstCard.className = `show ${hardMode}`
 
-    } else if (secondCard === null) {
+    } else if ((secondCard === null) && (selectedCard.parentElement != firstCard) && (selectedCard.id != firstCard.id)) {
+        console.log(selectedCard.parentElement);
         //In caso contrario lo assegno a secondCard
         secondCard = selectedCard;
-
-        // Lo mostro
-        //console.log('Second Card:', secondCard);
-
+        console.log(firstCard);
         //Faccio il confronto grazie alla funzione di Match
         if (matchYourCards()) {
             //Se sono uguali assegno la classe show 
-            secondCard.className = 'show'
-
-            firstCard.className = 'goal'
-            secondCard.className = 'goal'
+            secondCard.className = `show ${hardMode}`
+            firstCard.className = `goal  ${hardMode}`
+            secondCard.className = `goal  ${hardMode}`
 
             //Reset delle carte selezionate
             firstCard = null;
             secondCard = null;
         } else {
-            console.log(secondCard);
             // In caso contrario la mostro
-            secondCard.className = 'show'
-            firstCard.className = 'error'
-            secondCard.className = 'error'
+            secondCard.className = `show ${hardMode}`
+            firstCard.className = `error  ${hardMode}`
+            secondCard.className = `error  ${hardMode}`
 
             //Dopo un secondo copro entrambe
             setTimeout(() => {
-                firstCard.className = 'hidden_card'
-                secondCard.className = 'hidden_card'
+                firstCard.className = hiddenClass
+                secondCard.className = hiddenClass
 
                 //Reset delle carte selezionate
                 firstCard = null;
@@ -123,16 +124,28 @@ function canYouMatch(event) {
             }, 1000);
         }
 
+    } else {
+        firstCard.className = `error  ${hardMode}`
+        //Dopo un secondo copro entrambe
+        setTimeout(() => {
+            firstCard.className = hiddenClass
+
+            //Reset delle carte selezionate
+            firstCard = null;
+            secondCard = null;
+        }, 1000);
+
     }
     successPage()
-    console.log(errorCounter);
 }
 
 //Confronto i valori
 function matchYourCards() {
 
-    if (firstCard.innerHTML == secondCard.innerHTML) {
+    if (firstCard.querySelector('img').src === secondCard.querySelector('img').src) {
         goalsCounter++
+        firstCard.removeEventListener('click', canYouMatch);
+        secondCard.removeEventListener('click', canYouMatch);
         console.log("true", goalsCounter);
         return true
     } else {
@@ -145,42 +158,9 @@ function matchYourCards() {
 
 }
 
-function errorsCounter() {
-    let errorsElement = document.getElementById('errors_number')
-    errorsElement.innerHTML = ''
-    errorsElement.innerHTML = errorCounter
-}
-
-function successPage() {
-    if (goalsCounter == (cards.length/2)) {
-        console.log('Entra qui');
-        let successPage = document.getElementsByClassName('modal_success')[0];
-        successPage.classList.add('show_modal'); 
-        createStars()
-    }
-}
-
-function createStars() {
-    const numStars = 40;
-    const container = document.querySelector('.modal_content'); 
-
-    for (let i = 0; i < numStars; i++) {
-        const star = document.createElement('div');
-        star.innerHTML = '<i class="fa-regular fa-star"></i>'
-        star.classList.add('star');
-        container.appendChild(star);
-
-        // Calcola le coordinate x e y per posizionare la stellina in modo casuale all'interno del contenitore
-        const x = Math.random() * container.clientWidth;
-        const y = Math.random() * container.clientHeight;
-
-        // Imposta le coordinate della stellina
-        star.style.left = `${x}px`;
-        star.style.top = `${y}px`;
-    }
-}
 
 printOnDom();
+
 
 
 // Seleziona i bottoni
@@ -198,13 +178,7 @@ btn6.addEventListener('click', function () {
     printOnDom();
 });
 
-btn12.addEventListener('click', function () {
-    const content = this.textContent.trim();
-    console.log(`Hai selezionato: ${content}`);
-    cards = getRandomCards(Number(content))
-    ulElement.innerHTML=''
-    printOnDom();
-});
+
 
 btn18.addEventListener('click', function () {
     const content = this.textContent.trim();
@@ -213,3 +187,42 @@ btn18.addEventListener('click', function () {
     ulElement.innerHTML = ''
     printOnDom();
 });
+
+
+
+
+
+function errorsCounter() {
+    let errorsElement = document.getElementById('errors_number')
+    errorsElement.innerHTML = ''
+    errorsElement.innerHTML = errorCounter
+}
+
+function successPage() {
+    if (goalsCounter == (cards.length / 2)) {
+        console.log('Entra qui');
+        let successPage = document.getElementsByClassName('modal_success')[0];
+        successPage.classList.add('show_modal');
+        createStars()
+    }
+}
+
+function createStars() {
+    const numStars = 40;
+    const container = document.querySelector('.modal_content');
+
+    for (let i = 0; i < numStars; i++) {
+        const star = document.createElement('div');
+        star.innerHTML = '<i class="fa-regular fa-star"></i>'
+        star.classList.add('star');
+        container.appendChild(star);
+
+        // Calcola le coordinate x e y per posizionare la stellina in modo casuale all'interno del contenitore
+        const x = Math.random() * container.clientWidth;
+        const y = Math.random() * container.clientHeight;
+
+        // Imposta le coordinate della stellina
+        star.style.left = `${x}px`;
+        star.style.top = `${y}px`;
+    }
+}
